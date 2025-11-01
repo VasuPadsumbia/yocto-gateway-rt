@@ -1,0 +1,49 @@
+header:
+  version: 14
+
+machine: raspberrypi0-2w
+distro: gateway-rt
+target: gateway-image
+
+repos:
+  bitbake:
+    url: "https://git.openembedded.org/bitbake.git"
+    branch: "2.12"
+    path: downloads/bitbake
+    layers:
+      .: "disabled"
+
+  openembedded-core:
+    url: "https://git.openembedded.org/openembedded-core.git"
+    branch: "walnascar"
+    path: downloads/openembedded-core
+    layers:
+      meta:
+
+  meta-openembedded:
+    url: "https://git.openembedded.org/meta-openembedded.git"
+    branch: "walnascar"
+    path: downloads/meta-openembedded
+    layers:
+      meta-oe:
+      meta-networking:
+      meta-python:
+
+  meta-raspberrypi0-2w:
+    url: "https://github.com/agherzan/meta-raspberrypi.git"
+    branch: "walnascar"
+    path: downloads/meta-raspberrypi
+
+  meta-gateway-rt:
+    path: meta-gateway
+
+local_conf_header:
+  common: |
+    # Wi-Fi configuration
+    WIFI_SSID ?= "Tanjiro"
+    WIFI_PASSWORD ?= "Jalsakarbc"
+    # BB_DANGLINGAPPENDS_WARNONLY = "1"
+    # Custom application configuration
+    #IMAGE_INSTALL:append ?= " raw-sender"
+    LICENSE_FLAGS_ACCEPTED += "synaptics-killswitch"
+
