@@ -23,7 +23,7 @@ KERNEL_IMAGETYPE = "zImage"
 KERNEL_DEVICETREE = "bcm2836-rpi-zero-2w.dtb"
 KERNEL_DEFCONFIG = "defconfig"
 
-COMPATIBLE_MACHINE = "raspberrypi0-2w|raspberrypi-zero|raspberrypi-3|raspberrypi-4|raspberrypi-400"
+COMPATIBLE_MACHINE = "raspberrypi0-2w"
 
 do_compile:prepend() {
     bbnote " Building kernel with real-time patches ${MACHINE}"

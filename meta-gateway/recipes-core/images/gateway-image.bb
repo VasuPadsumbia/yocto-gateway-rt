@@ -11,9 +11,6 @@ IMAGE_FEATURES += " \
     package-management \
     "
 
-# Include Broadcom firmware for Raspberry Pi devices
-IMAGE_INSTALL:append = " linux-firmware-rpidistro-brcm43455 "
-
 # Include additional packages for gateway functionality
 IMAGE_INSTALL += " \
     raw-sender \
@@ -29,8 +26,6 @@ IMAGE_INSTALL += " \
     nano \
     less \
     iproute2 \
-    ethtool \
-    net-tools \
 "
 
 # Real-time kernel
