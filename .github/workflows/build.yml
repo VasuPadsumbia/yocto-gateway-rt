@@ -28,7 +28,7 @@ jobs:
           libarchive-dev bc u-boot-tools libncurses5-dev libncursesw5-dev zstd liblz4-tool \
           libssl-dev flex bison python3-jinja2 \
           python3-subunit mesa-common-dev zstd python3-yaml python3-distro \
-          pip install --upgrade pip
+          pip install --upgrade pip \
           pip install kas
       - name: Build Yocto Image
         run: |
