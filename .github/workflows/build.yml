@@ -1,5 +1,4 @@
 # CI/CD Workflow
-```yaml
 name: Yocto PREEMPT_RT Build
 
 on:
