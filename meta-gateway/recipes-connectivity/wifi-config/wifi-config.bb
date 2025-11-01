@@ -1,7 +1,7 @@
 SUMMARY = "WiFi configuration utility"
 DESCRIPTION = "A utility for configuring WiFi settings"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/MIT;md5=0835cfd4e8f1f1a1a9c58f5e8d3f4b6d"
+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 SRC_URI = "file://wpa_supplicant.conf.in \
            file://wifi-wlan0.service \

@@ -28,8 +28,11 @@ jobs:
           libarchive-dev bc u-boot-tools libncurses5-dev libncursesw5-dev zstd liblz4-tool \
           libssl-dev flex bison python3-jinja2 \
           python3-subunit mesa-common-dev zstd python3-yaml python3-distro
-          sudo -H python3 -m pip install --upgrade pip
-          sudo -H python3 -m pip install kas
+          # Avoid attempting to uninstall or upgrade the distribution-managed pip
+          # which can fail in Debian/Ubuntu images. Install kas into the user site
+          # and add ~/.local/bin to PATH so the action can find executables.
+          python3 -m pip install --user kas
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Build Yocto Image
         run: |
           kas build kas/firmware.yml
