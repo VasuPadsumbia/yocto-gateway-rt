@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-      - name : Install Dependencies
+      - name: Install Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y gawk wget git-core diffstat unzip texinfo gcc-multilib \
@@ -27,9 +27,9 @@ jobs:
           debianutils iputils-ping libsdl1.2-dev xterm autoconf libtool libglib2.0-dev \
           libarchive-dev bc u-boot-tools libncurses5-dev libncursesw5-dev zstd liblz4-tool \
           libssl-dev flex bison python3-jinja2 \
-          python3-subunit mesa-common-dev zstd python3-yaml python3-distro \
-          pip install --upgrade pip \
-          pip install kas
+          python3-subunit mesa-common-dev zstd python3-yaml python3-distro
+          sudo -H python3 -m pip install --upgrade pip
+          sudo -H python3 -m pip install kas
       - name: Build Yocto Image
         run: |
           kas build kas/firmware.yml
