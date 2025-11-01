@@ -33,8 +33,3 @@ jobs:
       - name: Build Yocto Image
         run: |
           kas build kas/firmware.yml
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: yocto-preempt-rt-build
-          path: .build/tmp/deploy/images/raspberrypi0-2w/*.rpi-sdimg
