@@ -15,19 +15,19 @@ SYSTEMD_SERVICE = "${PN}"
 SYSTEMD_SERVICE:${PN} = "wifi-wlan0.service"
 
 do_configure() {
-    install -d ${S}/generated
+    install -d ${WORKDIR}/generated
     sed -e "s|@SSID@|${WIFI_SSID}|g" \
         -e "s|@PSK@|${WIFI_PSK}|g" \
-        ${THISDIR}/wpa_supplicant.conf.in > ${S}/generated/wpa_supplicant-wlan0.conf
+        ${S}/files/wpa_supplicant.conf.in > ${WORKDIR}/generated/wpa_supplicant-wlan0.conf
 }
 
 do_install() {
     install -d ${D}${sysconfdir}/wpa_supplicant
-    install -m 0600 ${S}/generated/wpa_supplicant-wlan0.conf \
+    install -m 0600 ${WORKDIR}/generated/wpa_supplicant-wlan0.conf \
                     ${D}${sysconfdir}/wpa_supplicant/wpa_supplicant-wlan0.conf
 
     install -d ${D}${systemd_system_unitdir}
-    install -m 0644 ${THISDIR}/wifi-wlan0.service \
+    install -m 0644 ${S}/files/wifi-wlan0.service \
                     ${D}${systemd_system_unitdir}/
 }
 
