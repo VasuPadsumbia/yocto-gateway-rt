@@ -10,15 +10,17 @@ IMAGE_FEATURES += " \
     splash \
     package-management \
     "
-
+IMAGE_INSTALL:remove = " \
+    dropbear \
+"
 # Include additional packages for gateway functionality
 IMAGE_INSTALL += " \
     raw-sender \
     udev \
     dhcpcd \
     wpa-supplicant \
-    dropbear \
     wifi-config \
+    packagegroup-core-ssh-openssh \
 "
 # remote access tools
 IMAGE_INSTALL += " \

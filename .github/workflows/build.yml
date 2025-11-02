@@ -12,10 +12,10 @@ on:
 
 jobs:
   build:
-  # Use Ubuntu 22.04 runner because ubuntu-24.04 disables unprivileged user namespaces
-  # by default which prevents BitBake from using user namespaces (AppArmor-related).
-  # See: https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890
-  runs-on: [ self-hosted, linux, ubuntu-22.04 ]
+    # Use Ubuntu 22.04 runner because ubuntu-24.04 disables unprivileged user namespaces
+    # by default which prevents BitBake from using user namespaces (AppArmor-related).
+    # See: https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890
+    runs-on: [self-hosted, linux, ubuntu-22.04]
 
     steps:
       - name: Checkout
