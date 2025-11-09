@@ -1,7 +1,7 @@
 header:
   version: 14
 
-machine: raspberrypi0-2w
+machine: gateway-rpi0-2w-64
 distro: gateway-rt
 target: gateway-image
 
@@ -41,11 +41,11 @@ local_conf_header:
   common: |
     # Wi-Fi configuration
     WIFI_SSID ?= "Tanjiro"
-    WIFI_PASSWORD ?= "Jalsakarbc"
+    WIFI_PASSWORD ?= "***********"
     # BB_DANGLINGAPPENDS_WARNONLY = "1"
     # Custom application configuration
     #IMAGE_INSTALL:append ?= " raw-sender"
-    #IMAGE_INSTALL:append ?= " linux-firmware-rpidistro-bcm43436s"
-  licenses: |
-    LICENSE_FLAGS_ACCEPTED:append = "synaptics-killswitch Synaptics-rpidistro binary-redist-Cypress-rpidistro firmware-rpidistro"
+    RPI_DTFILE = "broadcom/gateway-rpi-rt.dtb"
 
+  licenses: |
+    LICENSE_FLAGS_ACCEPTED:append = "synaptics-killswitch Synaptics-rpidistro binary-redist-Cypress-rpidistro firmware-rpidistro commercial_firmware-rpidistro"

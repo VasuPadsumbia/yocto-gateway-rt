@@ -1,0 +1,3 @@
+arm_64=1
+kernel=Image
+disable_overscan=1
