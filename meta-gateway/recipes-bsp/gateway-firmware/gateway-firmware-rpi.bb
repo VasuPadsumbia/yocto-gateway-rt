@@ -1,55 +1,67 @@
 DESCRIPTION = "Gateway: Raspberry Pi boot firmware for Gateway RT"
 SECTION = "bsp"
 LICENSE = "CLOSED"
+LIC_FILES_CHKSUM = "file://boot/LICENCE.broadcom;md5=c403841ff2837657b2ed8e5bb474ac8d"
 
-inherit gateway-firmware
+inherit deploy
 
-FIRMWARE_QORIQ_BRANCH = "master"
-FIRMWARE_QORIQ_SRC = "git://github.com/raspberrypi/firmware.git;protocol=https"
-
-FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
-
-# Pin to RPi firmware repo, user may swap for different board later
-SRC_URI = "${FIRMWARE_QORIQ_SRC};branch=${FIRMWARE_QORIQ_BRANCH} \
+SRC_URI = "git://github.com/raspberrypi/firmware.git;protocol=https;branch=stable \
            file://config.txt \
            file://cmdline.txt \
-           "
-
+"
 SRCREV = "ba22330437d0aaae38ee01dc333e3210536a8333"
 
 S = "${WORKDIR}/git"
 
-FW_BOOT_SUBDIR = "boot"
+RPI_FIRMWARE_OVERLAYS ?= ""
 
-#python do_deploy() {
-#    import os, shutil
-#    dstdir = os.path.join(d.getVar('DEPLOYDIR'), 'gateway-fw', d.getVar('MACHINE'))
-#    os.makedirs(dstdir, exist_ok=True)
-#    def _copy(srcname, dstname):
-#        src = os.path.join(d.getVar('WORKDIR'), srcname)
-#        dst = os.path.join(dstdir, dstname)
-#        if os.path.isdir(src):
-#            shutil.copytree(src, dst)
-#        else:
-#            shutil.copy2(src, dst)
-#    for fname in ("config.txt", "cmdline.txt"):
-#        _copy(fname, fname)
-#}
 do_install() {
-    install -d ${D}/etc/gateway-fw
-    for f in config.txt cmdline.txt; do
-        if [ -f "${WORKDIR}/${f}" ]; then
-            src="${WORKDIR}/${f}"
-        elif [ -f "${WORKDIR}/files/${f}" ]; then
-            src="${WORKDIR}/files/${f}"
-        else
-            src=""
-        fi
+    install -d ${D}/boot ${D}/boot/overlays
 
-        if [ -n "${src}" ]; then
-            install -m 0644 "${src}" "${D}/etc/gateway-fw/${f}"
+    # Use the config/cmdline from sources-unpack
+    install -m 0644 ${WORKDIR}/sources-unpack/config.txt  ${D}/boot/config.txt
+    install -m 0644 ${WORKDIR}/sources-unpack/cmdline.txt ${D}/boot/cmdline.txt
+
+    # Core firmware blobs
+    for f in start.elf start_cd.elf start_db.elf start_x.elf \
+             fixup.dat fixup_cd.dat fixup_db.dat fixup_x.dat; do
+        if [ -f ${S}/boot/${f} ]; then
+            install -m 0644 ${S}/boot/${f} ${D}/boot/${f}
+        fi
+    done
+
+    # Optional overlays
+    for o in ${RPI_FIRMWARE_OVERLAYS}; do
+        if [ -f ${S}/boot/overlays/${o} ]; then
+            install -m 0644 ${S}/boot/overlays/${o} ${D}/boot/overlays/${o}
         fi
     done
 }
 
-FILES:${PN} += "/etc/gateway-fw/*"
+do_deploy() {
+    install -d "${DEPLOYDIR}"
+
+    # Put files at top-level in deploy dir
+    for f in start.elf start_cd.elf start_db.elf start_x.elf \
+             fixup.dat fixup_cd.dat fixup_db.dat fixup_x.dat \
+             config.txt cmdline.txt; do
+        install -m 0644 ${D}/boot/$f "${DEPLOYDIR}/$f"
+    done
+}
+
+#FILES:${PN} = "\
+#    /boot \
+#    /boot/overlays \
+#    /boot/config.txt \
+#    /boot/cmdline.txt \
+#    /boot/start*.elf \
+#    /boot/fixup*.dat \
+#    /boot/overlays/*.dtbo \
+#"
+
+INSANE_SKIP:${PN} += "already-stripped arch"
+INHIBIT_PACKAGE_STRIP = "1"
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+PACKAGES = "${PN}"
+FILES:${PN} += "/boot"
+addtask deploy after do_install before do_build

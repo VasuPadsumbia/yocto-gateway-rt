@@ -1,3 +1,19 @@
-arm_64=1
+# Minimal config for 64-bit Linux on Raspberry Pi Zero 2W
+
+# 64-bit kernel
+arm_64bit=1
+
+# Kernel filename we ship
 kernel=Image
+
+# Device tree to use (adjust to your actual dtb name)
+device_tree=gateway-rpi-rt.dtb
+
+# Enable primary UART
+enable_uart=1
+
+# Disable overscan (no black borders)
 disable_overscan=1
+
+# Enable audio
+dtparam=audio=on
